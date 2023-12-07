@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+    </head>
+    <body>
+        <button>
+            hi
+        </button>
+        <script>
+            const button = document.querySelector("button")
+            button.addEventListener("click", () => {
+                const audioCtx = new AudioContext()
+                const oscillator = audioCtx.createOscillator()
+                oscillator.type = "square"
+                oscillator.frequency.setValueAtTime(
+                    440,
+                    audioCtx.currentTime
+                )
+                oscillator.frequency.exponentialRampToValueAtTime(
+                    880,
+                    audioCtx.currentTime + 2
+                )
+                oscillator.connect(audioCtx.destination)
+                oscillator.start()
+            })
+        </script>
+    </body>
+</html>
