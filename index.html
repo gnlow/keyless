@@ -11,7 +11,7 @@
             button.addEventListener("click", () => {
                 const audioCtx = new AudioContext()
                 const oscillator = audioCtx.createOscillator()
-                oscillator.type = "square"
+                oscillator.type = "sine"
                 oscillator.frequency.setValueAtTime(
                     440,
                     audioCtx.currentTime
@@ -22,6 +22,18 @@
                 )
                 oscillator.connect(audioCtx.destination)
                 oscillator.start()
+
+                const analyser = audioCtx.createAnalyser()
+                oscillator.connect(analyser)
+                const dataArray = new Uint8Array(
+                    analyser.frequencyBinCount
+                )
+                const loop = () => {
+                    analyser.getByteFrequencyData(dataArray)
+                    console.log(dataArray)
+                    requestAnimationFrame(loop)
+                }
+                requestAnimationFrame(loop)
             })
         </script>
     </body>
